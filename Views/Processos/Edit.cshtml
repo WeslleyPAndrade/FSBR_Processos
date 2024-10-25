@@ -1,0 +1,78 @@
+﻿@model FSBR_Processos.Models.DTOs.EditarProcessoInputDTO;
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Processo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="NomeProcesso" class="control-label"></label>
+                <input asp-for="NomeProcesso" class="form-control" />
+                <span asp-validation-for="NomeProcesso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NPU" class="control-label"></label>
+                <input asp-for="NPU" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '');" id="npuInput" />
+                <span asp-validation-for="NPU" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataVisualizacao" class="control-label"></label>
+                <input asp-for="DataVisualizacao" class="form-control" readonly/>
+                <span asp-validation-for="DataVisualizacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UF">Selecione a UF</label>
+                @Html.DropDownListFor(model => model.UF, (SelectList)ViewBag.UFs, "Selecione uma UF", new { @class = "form-control", id = "UFDropdown" })
+                <span asp-validation-for="UF" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Municipio">Selecione o Município</label>
+                @Html.DropDownListFor(model => model.Municipio, (SelectList)ViewBag.Municipios, "Selecione um município", new { @class = "form-control", id = "MunicipioDropdown" })
+                <span asp-validation-for="Municipio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar para o início</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var input = document.getElementById("npuInput");
+            Inputmask({
+                "mask": "9999999-99.9999.9.99.9999"
+            }).mask(input);
+
+            $('#UFDropdown').change(function () {
+                var uf = $(this).val();
+                if (uf) {
+                    $.getJSON('@Url.Action("GetMunicipiosByUF", "Processos")', { uf: uf }, function (data) {
+                        var municipioDropdown = $('#MunicipioDropdown');
+                        municipioDropdown.empty();
+                        municipioDropdown.append('<option>Selecione um município</option>');
+                        $.each(data, function (i, municipio) {
+                            municipioDropdown.append('<option value="' + municipio.nome + '.' + municipio.id + '">' + municipio.nome + '</option>');
+                        });
+                    });
+                } else {
+                    $('#MunicipioDropdown').empty().append('<option>Selecione um município</option>');
+                }
+            });
+        });
+    </script>
+}

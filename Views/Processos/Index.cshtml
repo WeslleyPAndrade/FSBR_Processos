@@ -1,0 +1,65 @@
+﻿@model IEnumerable<FSBR_Processos.Models.Processo>
+
+@{
+    ViewData["Title"] = "Lista de Processos";
+}
+
+<h1>Lista de Processos</h1>
+
+<p>
+    <a asp-action="Create">Criar Novo Processo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NPU)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataCadastro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UF)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            var municipio = item.Municipio.Split(".")[0];
+            <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NPU)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCadastro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UF)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Visualizar</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Remover</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <span>Página @ViewBag.CurrentPage de @ViewBag.TotalPages</span>
+
+    <div>
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <a class="btn btn-primary" href="?page=@(ViewBag.CurrentPage - 1)">Anterior</a>
+        }
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <a class="btn btn-primary" href="?page=@(ViewBag.CurrentPage + 1)">Próximo</a>
+        }
+    </div>
+</div>
