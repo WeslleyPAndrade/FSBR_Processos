@@ -38,13 +38,22 @@ Este projeto implementa uma aplicação web para cadastro, listagem, edição, e
 
 ```
 
-### Aplicação
-
+### Como Executar
+#### Usando o Terminal
 1.  Clone o repositório: `git clone https://github.com/WeslleyPAndrade/FSBR_Processos`
 2.  Navegue até o diretório do projeto no terminal.
 3.  Execute o comando: `dotnet restore` para instalar as dependências.
 4.  Execute o comando: `dotnet ef database update` para aplicar as migrations.
 5.  Execute o comando: `dotnet run` para iniciar a aplicação.
+
+#### Usando o Visual Studio
+1.  Clone o repositório: `git clone https://github.com/WeslleyPAndrade/FSBR_Processos`
+2.  Abrir  o projeto  com o Visual Studio
+3.  Aguarde  as dependência serem baixadas
+4.  Aperte F5 para executar o projeto
+5.  Se  as  dependências não forem baixadas automaticamente clique com o botão direito do mouse no projeto no Explorador de Soluções, selecione "Gerenciar Pacotes NuGet..." e clique em "Restaurar".
+    
+
 
 ## Considerações
 
@@ -55,3 +64,8 @@ Desenvolver este projeto foi uma experiência enriquecedora. A estrutura do proj
 -   **Erro ao executar `update-database`:** Certifique-se de ter o Entity Framework Core Tools instalado globalmente. Instale-o usando o comando: `dotnet tool install --global dotnet-ef`. Verifique também se a string de conexão no arquivo `appsettings.json` está correta.
 -   **Erros de compilação:** Certifique-se de ter o .NET 8 SDK instalado e que a versão do SQL Server é compatível.
 -   **Erros de conexão com o banco de dados:** Verifique se o SQL Server está em execução e se as credenciais na string de conexão estão corretas. Verifique também se as portas necessárias estão abertas no firewall.
+
+## Pontos de melhoria
+- O Município e o código poderiam ser adicionados de forma separadas na tabela evitando soluções via script
+- Poderia se utilizar uma arquitetura separando o backend do frontend se utilizando de uma  API e de um framework de Frontend como React
+  
